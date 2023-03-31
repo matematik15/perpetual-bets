@@ -19,7 +19,7 @@ contract BetOffer is SuperAppBase {
     int96 public minPaymentFlowRate;
     bool public isCall;
     ISuperfluid public immutable host;
-    ISuperToken public immutable betToken = ISuperToken(0x5D8B4C2554aeB7e86F387B4d6c00Ac33499Ed01f);
+    ISuperToken public immutable betToken = ISuperToken(0xF2d68898557cCb2Cf4C10c3Ef2B034b2a69DAD00);
     //Goerli fDAIx: 0xF2d68898557cCb2Cf4C10c3Ef2B034b2a69DAD00
     //Mumbai fDAIx: 0x5D8B4C2554aeB7e86F387B4d6c00Ac33499Ed01f
    
