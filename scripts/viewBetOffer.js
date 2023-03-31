@@ -5,7 +5,6 @@ const BetOfferABI = require("../artifacts/contracts/BetOffer.sol/BetOffer.json")
 const { Framework } = require("@superfluid-finance/sdk-core")
 
 const BetOfferAddress = process.env.OFFER_ADDRESS
-const DAIxAddress = "0x5D8B4C2554aeB7e86F387B4d6c00Ac33499Ed01f"
 const url = process.env.MUMBAI_URL
 
 const customHttpProvider = new ethers.providers.JsonRpcProvider(url)

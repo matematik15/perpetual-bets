@@ -189,8 +189,7 @@ contract BetOffer is SuperAppBase {
 
         //A buyer exists and the freeze period passed. He can be outbid by anyone now:
         if (buyer != address(0) && block.timestamp > freezePeriodEnd) {
-            (, int96 oldInFlow, , ) = cfaV1.cfa.getFlow(betToken, buyer, address(this));
-            if (inFlow < oldInFlow * 5/4) { //increase the minPaymentFlowRate by at least 25% on each new outbid
+            if (inFlow < minPaymentFlowRate) { //increase the minPaymentFlowRate by at least 25% on each new outbid
                 revert("Payment too small");
             } else {
                 newCtx = cfaV1.updateFlowWithCtx(newCtx, owner, betToken, inFlow); //the bet must have some supertokens for this to work
@@ -199,6 +198,9 @@ contract BetOffer is SuperAppBase {
                 buyer = host.decodeCtx(ctx).msgSender;
             }
         }
+
+        //Make the next outbid be at least 25% higher:
+        minPaymentFlowRate = inFlow * 5/4;
         return newCtx;
     }
 
@@ -225,6 +227,9 @@ contract BetOffer is SuperAppBase {
                 newCtx = cfaV1.deleteFlowWithCtx(newCtx, address(this), owner, betToken);
                 newCtx = cfaV1.deleteFlowWithCtx(newCtx, host.decodeCtx(ctx).msgSender, address(this), betToken);
                 _resetBuyerAndFreeze();
+            } else {
+                //Make the next outbid be at least 25% higher:
+                minPaymentFlowRate = minPaymentFlowRate * 5/4;
             }
         } else {
             revert("Unsupported operation");
